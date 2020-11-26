@@ -1,3 +1,15 @@
+#### Basic Theories
+  * Data Types
+```
+None
+Numeric Data Types [int, float, complex, bool]
+List
+tuple
+set
+string
+range
+Dic
+```
 #### What is an expression
   * An expression is a piece of code that produces a value
 #### What does a linter does
