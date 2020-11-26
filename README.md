@@ -8,5 +8,5 @@
   * string
   * range
   * Dic
-#### Contents
+#### Table of Contents
   * [Python for Shell Commands](https://github.com/rbngtm1/Python/blob/master/shell_and_python.md)
