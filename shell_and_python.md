@@ -26,11 +26,11 @@ os.listdir(‘.’)
 ```py
 os.chdir('workspace’)   -> will switch the directory	to workspace dir.
 ```
-# list only yml files in cwd
+### list only yml files in cwd
 ```py
 [f for f in os.listdir() if f.endswith('.yml')]
 ```
-# Copy files in python
+### Copy files in python
 ```py
 from shutil import copyfile
 copyfile(‘my_stock_earning.xlsx', '/Users/rbngtm1/earning.xlsx')
