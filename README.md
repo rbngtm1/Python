@@ -6,12 +6,3 @@
   * [Command Line Arguments in Python](https://www.tutorialspoint.com/python/python_command_line_arguments.htm)
   * [Python Network Scanner](https://www.python-course.eu/python_network_scanner.php)
   * [OOP and Classes in Python](https://www.python-course.eu/python3_object_oriented_programming.php)
-#### Data Types
-  * None
-  * Numeric Data Types [int, float, complex, bool]
-  * List
-  * tuple
-  * set 
-  * string
-  * range
-  * Dic
