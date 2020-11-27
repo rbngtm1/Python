@@ -1,0 +1,115 @@
+# First, I had made this Wordpress website up and running using docker
+
+```
+version: ‘3’
+services:
+  wordpress:
+    image: wordpress
+    links:
+     - mariadb:mysql
+    environment:
+     - WORDPRESS_DB_PASSWORD=password
+    ports:
+     - "public_ip:80:80"
+    volumes:
+     - ./html:/var/www/html
+  mariadb:
+    image: mariadb
+    environment:
+     - MYSQL_ROOT_PASSWORD=password
+     - MYSQL_DATABASE=wordpress
+    volumes:
+     - ./database:/var/lib/mysql
+
+```
+# docker-compose up -d (to bring website up in localhost)
+
+#taged and pushed the build images to ECR
+
+#Made some modification to work with farget for docker-compose.yml file
+```
+version: ‘3’
+services:
+  wordpress:
+    image: <ac_id>.dkr.ecr.us-east-2.amazonaws.com/<image_name>:<tag>{refering to wordpress in ECR}
+    depends_on:
+      - mariadb
+    environment:
+     - WORDPRESS_DB_PASSWORD=password
+    ports:
+     - 80:80
+    volumes:
+     - /var/www/html
+    logging:
+      driver: awslogs
+      options:
+        awslogs-group: wordpress
+        awslogs-region: us-east-2
+        awslogs-stream-prefix: wordpress
+
+  mariadb:
+    image: <ac_id>.dkr.ecr.us-east-2.amazonaws.com/<image_name>:<tag>{refering to mariadb in ECR}
+    environment:
+     - MYSQL_ROOT_PASSWORD=password
+     - MYSQL_DATABASE=wordpress
+    volumes:
+     - /var/lib/mysql
+    logging:
+      driver: awslogs
+      options:
+        awslogs-group: mariadb
+        awslogs-region: us-east-2
+        awslogs-stream-prefix: mariadb
+```
+# things I did to push compose file to ecs farget
+```
+#cat ~/.ecs/config
+version: v1
+default: mytest
+clusters
+  mycluster:
+    cluster: mycluster
+    region: us-east-2
+    default_launch_type: FARGATE 
+
+```
+# under my current working dir, I have docker-compose.yml and ecs-params.yml
+#cat ecs-params.yml
+```
+version: 1
+task_definition:
+  task_execution_role: ecsTaskExecutionRole
+  ecs_network_mode: awsvpc
+  task_size:
+    mem_limit: 2GB
+    cpu_limit: 1024
+run_params:
+  network_configuration:
+    awsvpc_configuration:
+      subnets:
+        - "subnet-#########"(I specified public subnet id)
+        - "subnet-#########"(I specified another public subnet id)
+      security_groups:
+        - "sg-###########" (this sg refers to ports that are exposed as well as refers to db sg)
+      assign_public_ip: ENABLED
+```
+
+# I span up the cluster
+
+```
+  ecs-cli up --keypar ##### --vpc vpc-id --subnets subnet_id-1,subnet_id-2(here both are public) --instance-type t2.micro --region us-east-2 --size 0 --cluster wordpress-test --security-group sg-###(this sg is same one in ecsparams file) --capacity-iam --verbose
+```
+# to spin down the cluster
+```
+  ecs-cli down --cluster <cluster-name> --region us-east-2
+```
+# Now to push my modified docker-compose file to farget
+```
+  ecs-cli compose --project-name ecs-farget-wordpress service up --create-log-groups --cluster-config mycluster --cluster wordpress-test --region us-east-2
+```
+Now, this will deploy our image from ecr to farget, the db works fine, wordpress is waiting for connection, Please see logs on dashboard
+
+
+
+
+
