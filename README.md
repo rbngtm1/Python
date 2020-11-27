@@ -9,3 +9,4 @@
 
 #### Data Structure and Algorithm in Python
   * [Array Problems](https://github.com/rbngtm1/Python/blob/master/data_structure_algorithm/array_data_structure.ipynb)
+  * [String Problems](https://github.com/rbngtm1/Python/blob/master/data_structure_algorithm/string_data_structure.ipynb)
