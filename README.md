@@ -6,3 +6,6 @@
   * [Command Line Arguments in Python](https://www.tutorialspoint.com/python/python_command_line_arguments.htm)
   * [Python Network Scanner](https://www.python-course.eu/python_network_scanner.php)
   * [OOP and Classes in Python](https://www.python-course.eu/python3_object_oriented_programming.php)
+
+#### Data Structure and Algorith in Python
+  * [Array](https://github.com/rbngtm1/Python/blob/master/data_structure_algorithm/array_data_structure.ipynb)
